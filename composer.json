@@ -32,7 +32,8 @@
         "classmap": [""]
     },
     "replace": {
-        "contao-legacy/dlh_googlemaps": "*"
+        "contao-legacy/dlh_googlemaps": "*",
+        "delahaye/dlh_googlemaps": "*"
     },
     "extra": {
         "contao": {

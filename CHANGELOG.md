@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.3] - 2017-07-18
+
+### Changed
+- replace `delahaye/dlh_googlemaps` with this package
+
 ## [2.3.2] - 2017-07-18
 
 ### Fixed
