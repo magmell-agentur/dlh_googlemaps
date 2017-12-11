@@ -1,12 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.3.3] - 2017-07-18
+## [2.3.4] - 2017-12-11
+
+### Fixed
+- changelog
+
+## [2.3.3] - 2017-12-11
 
 ### Changed
 - replace `delahaye/dlh_googlemaps` with this package
 
-## [2.3.2] - 2017-07-18
+## [2.3.2] - 2017-12-11
 
 ### Fixed
 - contao 3 requires `contao-community-alliance/composer-plugin` in version `~2.4`
