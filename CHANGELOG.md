@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.5] - 2017-12-18
+
+### Fixed
+- contao 3 compatibility, `\Contao\StringUtil::specialchars()` not available in contao 3
+
 ## [2.3.4] - 2017-12-11
 
 ### Fixed

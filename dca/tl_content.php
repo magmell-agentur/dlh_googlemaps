@@ -156,8 +156,8 @@ class tl_content_dlh_googlemaps extends Backend
                 $objMaps->title,
                 $objMaps->id,
                 REQUEST_TOKEN,
-                sprintf(\StringUtil::specialchars($GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $objMaps->id),
-                'Backend.openModalIframe({\'title\':\'' . \StringUtil::specialchars(
+                sprintf(specialchars($GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $objMaps->id),
+                'Backend.openModalIframe({\'title\':\'' . specialchars(
                     str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_content']['editalias'][1], $objMaps->id))
                 ) . '\',\'url\':this.href});return false',
                 \Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_content']['editalias'][0])
