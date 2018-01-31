@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.6] - 2018-01-31
+
+### Fixed
+- map size
+
 ## [2.3.5] - 2017-12-18
 
 ### Fixed

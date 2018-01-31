@@ -164,7 +164,14 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps'] = [
             'label'     => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps']['mapSize'],
             'exclude'   => true,
             'inputType' => 'imageSize',
-            'options'   => ['box'],
+            'options_callback' => function ()
+            {
+                if (version_compare(VERSION, '4.0', '<')) {
+                    return ['', 'proportional','box'];
+                } else {
+                    return array_merge(['' => '-'], System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance()));
+                }
+            },
             'reference' => &$GLOBALS['TL_LANG']['MSC'],
             'eval'      => ['rgxp' => 'digit', 'nospace' => true, 'helpwizard' => false, 'tl_class' => 'w50'],
             'sql'       => "varchar(128) NOT NULL default ''",
