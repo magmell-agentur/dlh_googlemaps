@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.8] - 2018-02-20
+
+### Fixed
+- fixed dlh_marker for hyphenator
+
 ## [2.3.7] - 2018-01-31
 
 ### Fixed

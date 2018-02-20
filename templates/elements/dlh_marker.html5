@@ -59,7 +59,7 @@
         <?php if ($this->element['infoWindowAnchor'][0]!=0 || $this->element['infoWindowAnchor'][1]!=0) : ?>
             pixelOffset: new google.maps.Size(<?php echo $this->element['infoWindowAnchor'][0].','.$this->element['infoWindowAnchor'][1]; ?>),
         <?php endif; ?>
-        content: '<div<?php echo $this->element['infoWindowSize']; ?>><?php echo $this->element['infoWindow'].$routingLink; ?></div>'
+        content: '<div<?php echo $this->element['infoWindowSize']; ?>><?php echo $this->element['infoWindow'].$routingLink; ?><\/div>'
         });
         google.maps.event.addListener(gmap<?php echo $this->element['id']; ?>_marker, 'click', function() {
         gmap<?php echo $this->element['id']; ?>_infowindow.open(gmap<?php echo $this->map; ?>);
