@@ -1,48 +1,66 @@
 {
-    "name": "heimrichhannot/dlh_googlemaps",
-    "description":"Google maps module for Contao",
-    "keywords":["contao", "googlemaps", "geo", "map"],
-    "type": "contao-module",
-    "homepage":"https://github.com/heimrichhannot/dlh_googlemaps",
-    "license":"LGPL-3.0-or-later",
-    "authors":[
-        {
-            "name":"Christian de la Haye",
-            "email":"service@delahaye.de",
-            "homepage":"http://www.delahaye.de",
-            "role":"Developer"
-        },
-	{
-            "name":"Heimrich & Hannot GmbH",
-            "email":"digitales@heimrich-hannot.de",
-            "homepage":"http://heimrich-hannot.de",
-            "role":"Developer"
-        }
-    ],
-    "support":{
-        "issues":"https://github.com/heimrichhannot/dlh_googlemaps/issues"
+  "name": "magmell-agentur/dlh_googlemaps",
+  "description": "Google maps bundle for Contao",
+  "keywords": [
+    "contao",
+    "googlemaps",
+    "geo",
+    "map"
+  ],
+  "type": "contao-bundle",
+  "homepage": "https://github.com/magmell-agentur/dlh_googlemaps",
+  "license": "LGPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Christian de la Haye",
+      "email": "service@delahaye.de",
+      "homepage": "http://www.delahaye.de",
+      "role": "Developer"
     },
-    "require": {
-        "php": ">=5.6.0",
-	"contao/core-bundle": "^3.5.1 || ~4.1",
-	"contao-community-alliance/composer-plugin": "~2.4 || ~3.0",
-	"heimrichhannot/dlh_geocode": "~1.1"
+    {
+      "name": "Heimrich & Hannot GmbH",
+      "email": "digitales@heimrich-hannot.de",
+      "homepage": "http://heimrich-hannot.de",
+      "role": "Developer"
     },
-    "autoload": {
-        "classmap": [""]
+    {
+      "name": "Markus Milkereit",
+      "email": "markus.milkereit@magmell.de",
+      "role": "Developer"
     },
-    "replace": {
-        "contao-legacy/dlh_googlemaps": "*",
-        "delahaye/dlh_googlemaps": "*"
-    },
-    "extra": {
-        "contao": {
-            "sources": {
-                "": "system/modules/dlh_googlemaps"
-            },
-            "runonce": [
-                "system/modules/dlh_googlemaps/config/runonce.php"
-            ]
-        }
+    {
+      "name": "Marko Todić",
+      "email": "drexplosiveweb@gmail.com",
+      "role": "Developer"
     }
+  ],
+  "require": {
+    "php": "^7.1",
+    "contao/core-bundle": "^4.4",
+    "heimrichhannot/dlh_geocode": "~1.1"
+  },
+  "require-dev": {
+    "contao/manager-plugin": "^2.2"
+  },
+  "replace": {
+    "contao-legacy/dlh_googlemaps": "*",
+    "delahaye/dlh_googlemaps": "*"
+  },
+  "extra": {
+    "contao-manager-plugin": "delahaye\\googlemaps\\ContaoManager\\Plugin"
+  },
+  "autoload": {
+    "psr-4": {
+      "delahaye\\googlemaps\\": "src"
+    },
+    "classmap": [
+      "src/Resources/contao/"
+    ],
+    "exclude-from-classmap": [
+      "src/Resources/contao/config/",
+      "src/Resources/contao/dca/",
+      "src/Resources/contao/languages/",
+      "src/Resources/contao/templates/"
+    ]
+  }
 }
