@@ -62,7 +62,11 @@
         content: '<div<?php echo $this->element['infoWindowSize']; ?>><?php echo $this->element['infoWindow'].$routingLink; ?><\/div>'
         });
         google.maps.event.addListener(gmap<?php echo $this->element['id']; ?>_marker, 'click', function() {
+
+        // Close previously opened info window - Magmell 14.11.2019.
+        if (null !== currentinfo && typeof currentinfo !== 'undefined') {currentinfo.close ();}
         gmap<?php echo $this->element['id']; ?>_infowindow.open(gmap<?php echo $this->map; ?>);
+        currentinfo = gmap<?php echo $this->element['id']; ?>_infowindow;
         });
         <?php if($this->element['popupInfoWindow']) : ?>
             gmap<?php echo $this->element['id']; ?>_infowindow.open(gmap<?php echo $this->map; ?>);
