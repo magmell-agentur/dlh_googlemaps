@@ -17,7 +17,7 @@
  * Add back end modules
  */
 
-array_insert($GLOBALS['BE_MOD']['content'], sizeof($GLOBALS['BE_MOD']['content']), array('dlh_googlemaps' => array
+array_insert($GLOBALS['BE_MOD']['content'], sizeof($GLOBALS['BE_MOD']['content'] ?: []), array('dlh_googlemaps' => array
 (
     'tables' 	 => array('tl_dlh_googlemaps', 'tl_dlh_googlemaps_elements'),
     'icon'   	 => 'bundles/dlhgooglemaps/icon.gif',
@@ -31,7 +31,7 @@ array_insert($GLOBALS['BE_MOD']['content'], sizeof($GLOBALS['BE_MOD']['content']
  * Add modules
  */
 
-array_insert($GLOBALS['FE_MOD']['miscellaneous'], sizeof($GLOBALS['FE_MOD']['miscellaneous']), array
+array_insert($GLOBALS['FE_MOD']['miscellaneous'], sizeof($GLOBALS['FE_MOD']['miscellaneous'] ?: []), array
 (
 	'dlh_googlemaps' => 'delahaye\googlemaps\ModuleMap'
 ));
@@ -41,7 +41,7 @@ array_insert($GLOBALS['FE_MOD']['miscellaneous'], sizeof($GLOBALS['FE_MOD']['mis
  * Add content elements
  */
 
-array_insert($GLOBALS['TL_CTE']['media'], sizeof($GLOBALS['TL_CTE']['media']), array
+array_insert($GLOBALS['TL_CTE']['media'], sizeof($GLOBALS['TL_CTE']['media'] ?: []), array
 (
     'dlh_googlemaps' => 'delahaye\googlemaps\ContentMap',
 ));
