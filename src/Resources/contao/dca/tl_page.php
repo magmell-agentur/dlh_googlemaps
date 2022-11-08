@@ -17,7 +17,7 @@
  * Extend default palette
  */
 $GLOBALS['TL_DCA']['tl_page']['palettes']['root'] = str_replace('{global_legend', '{dlh_googlemaps_legend},dlh_googlemaps_apikey;{global_legend', $GLOBALS['TL_DCA']['tl_page']['palettes']['root']);
-
+$GLOBALS['TL_DCA']['tl_page']['palettes']['rootfallback'] = str_replace('{global_legend', '{dlh_googlemaps_legend},dlh_googlemaps_apikey;{global_legend', $GLOBALS['TL_DCA']['tl_page']['palettes']['rootfallback']);
 
 
 /**
