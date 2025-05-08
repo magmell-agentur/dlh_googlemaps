@@ -161,7 +161,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['dlh_googlemap_rel'] = [
  * @author     Christian de la Haye
  * @package    dlh_googlemaps
  */
-class tl_module_dlh_googlemaps extends Backend
+class tl_module_dlh_googlemaps 
 {
 
     /**

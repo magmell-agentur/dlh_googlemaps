@@ -534,7 +534,7 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps_elements'] = [
  * @author     Christian de la Haye
  * @package    Controller
  */
-class tl_dlh_googlemaps_elements extends Backend
+class tl_dlh_googlemaps_elements 
 {
 
     /**
