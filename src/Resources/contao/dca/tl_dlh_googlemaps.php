@@ -11,6 +11,7 @@ use Contao\FilesModel;
 use Contao\StringUtil;
 use Contao\Files;
 use Contao\Date;
+use Contao\DC_Table;
 use Contao\DateTime;
 
 /**
@@ -33,7 +34,7 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps'] = [
 
     // Config
     'config'      => [
-        'dataContainer'    => 'Table',
+		'dataContainer'               => DC_Table::class,
         'ctable'           => ['tl_dlh_googlemaps_elements'],
         'switchToEdit'     => true,
         'enableVersioning' => true,

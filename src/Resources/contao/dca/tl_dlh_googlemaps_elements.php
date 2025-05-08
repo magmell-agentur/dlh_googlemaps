@@ -13,6 +13,7 @@ use Contao\StringUtil;
 use Contao\Files;
 use Contao\Date;
 use Contao\DateTime;
+use Contao\DC_Table;
 
 /**
  * dlh_googlemaps
@@ -39,7 +40,7 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps_elements'] = [
 
     // Config
     'config'      => [
-        'dataContainer'    => 'Table',
+		'dataContainer'    => DC_Table::class,
         'ptable'           => 'tl_dlh_googlemaps',
         'enableVersioning' => true,
         'onload_callback'  => [
