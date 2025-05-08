@@ -18,11 +18,13 @@
  */
 namespace delahaye\googlemaps;
 
+use Contao\Model;
+
 
 /**
  * Reads and writes tl_dlh_googlemaps
  */
-class MapModel extends \Model
+class MapModel extends Model
 {
 
 	/**

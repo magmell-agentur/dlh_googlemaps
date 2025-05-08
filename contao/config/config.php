@@ -28,6 +28,7 @@
 
 $GLOBALS['BE_MOD']['content']['dlh_googlemaps'] = array
 (
+    'tables' => ['tl_dlh_googlemaps', 'tl_dlh_googlemaps_elements'],
     'callback' => 'delahaye\googlemaps\ImportList',
     'icon'     => 'bundles/dlhgooglemaps/importlist.png',
     'stylesheet' => 'bundles/dlhgooglemaps/css/backend.css',

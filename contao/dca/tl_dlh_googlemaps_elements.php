@@ -71,38 +71,12 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps_elements'] = [
             ],
         ],
         'operations'        => [
-            'edit'   => [
-                'label' => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps_elements']['edit'],
-                'href'  => 'act=edit',
-                'icon'  => 'edit.gif',
-            ],
-            'copy'   => [
-                'label' => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps_elements']['copy'],
-                'href'  => 'act=paste&amp;mode=copy',
-                'icon'  => 'copy.gif',
-            ],
-            'cut'    => [
-                'label' => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps_elements']['cut'],
-                'href'  => 'act=paste&amp;mode=cut',
-                'icon'  => 'cut.gif',
-            ],
-            'delete' => [
-                'label'      => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps_elements']['delete'],
-                'href'       => 'act=delete',
-                'icon'       => 'delete.gif',
-                'attributes' => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"',
-            ],
-            'toggle' => [
-                'label'           => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps_elements']['toggle'],
-                'icon'            => 'visible.gif',
-                'attributes'      => 'onclick="Backend.getScrollOffset(); return AjaxRequest.toggleVisibility(this, %s);"',
-                'button_callback' => ['tl_dlh_googlemaps_elements', 'toggleIcon'],
-            ],
-            'show'   => [
-                'label' => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps_elements']['show'],
-                'href'  => 'act=show',
-                'icon'  => 'show.gif',
-            ],
+            'edit',
+            'copy',
+            'cut',
+            'delete',
+            'toggle',
+            'show',
         ],
     ],
 
@@ -537,17 +511,6 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps_elements'] = [
 class tl_dlh_googlemaps_elements extends Backend
 {
 
-    /**
-     * Import the back end user object
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->import('BackendUser', 'User');
-
-    }
-
 
     /**
      * Add a link to the coordinates items import wizard
@@ -680,8 +643,7 @@ class tl_dlh_googlemaps_elements extends Backend
         $objVersions->create();
         $this->log(
             'A new version of record "tl_dlh_googlemaps_elements.id=' . $intId . '" has been created' . $this->getParentEntries('tl_dlh_googlemaps', $intId),
-            __METHOD__,
-            TL_GENERAL
+            __METHOD__
         );
     }
 
@@ -696,7 +658,7 @@ class tl_dlh_googlemaps_elements extends Backend
 
         $objElement = \delahaye\googlemaps\ElementModel::findByPk($dc->id);
 
-        if ($objElement && \Input::get('act') == 'edit')
+        if ($objElement && Input::get('act') == 'edit')
         {
 
             if ($objElement->type == 'MARKER')

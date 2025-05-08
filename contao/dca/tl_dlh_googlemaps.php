@@ -13,7 +13,7 @@ use Contao\Files;
 use Contao\Date;
 use Contao\DC_Table;
 use Contao\DateTime;
-
+use Contao\Database;
 /**
  * dlh_googlemaps
  * Extension for Contao Open Source CMS (contao.org)
@@ -38,9 +38,6 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps'] = [
         'ctable'           => ['tl_dlh_googlemaps_elements'],
         'switchToEdit'     => true,
         'enableVersioning' => true,
-        'onload_callback'  => [
-            ['tl_dlh_googlemaps', 'checkPermission'],
-        ],
         'sql'              => [
             'keys' => [
                 'id' => 'primary',
@@ -70,35 +67,11 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps'] = [
             ],
         ],
         'operations'        => [
-            'edit'       => [
-                'label'      => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps']['edit'],
-                'href'       => 'table=tl_dlh_googlemaps_elements',
-                'icon'       => 'edit.gif',
-                'attributes' => 'class="contextmenu"',
-            ],
-            'editheader' => [
-                'label'           => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps']['editheader'],
-                'href'            => 'act=edit',
-                'icon'            => 'header.gif',
-                'button_callback' => ['tl_dlh_googlemaps', 'editHeader'],
-                'attributes'      => 'class="edit-header"',
-            ],
-            'copy'       => [
-                'label' => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps']['copy'],
-                'href'  => 'act=copy',
-                'icon'  => 'copy.gif',
-            ],
-            'delete'     => [
-                'label'      => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps']['delete'],
-                'href'       => 'act=delete',
-                'icon'       => 'delete.gif',
-                'attributes' => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"',
-            ],
-            'show'       => [
-                'label' => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps']['show'],
-                'href'  => 'act=show',
-                'icon'  => 'show.gif',
-            ],
+            'edit'  ,    
+            'children',
+            'copy'      , 
+            'delete'     ,
+            'show'       
         ],
     ],
 
@@ -180,11 +153,7 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps'] = [
             'inputType' => 'imageSize',
             'options_callback' => function ()
             {
-                if (version_compare(VERSION, '4.0', '<')) {
-                    return ['', 'proportional','box'];
-                } else {
-                    return array_merge(['' => '-'], System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance()));
-                }
+                    return array_merge(['' => '-'], System::getContainer()->get('contao.image.sizes')->getOptionsForUser(BackendUser::getInstance()));
             },
             'reference' => &$GLOBALS['TL_LANG']['MSC'],
             'eval'      => ['rgxp' => 'digit', 'nospace' => true, 'helpwizard' => false, 'tl_class' => 'w50'],
@@ -541,157 +510,6 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps'] = [
 class tl_dlh_googlemaps extends Backend
 {
 
-    /**
-     * Import the back end user object
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->import('BackendUser', 'User');
-    }
-
-
-    /**
-     * Check permissions to edit table tl_googlemaps
-     */
-    public function checkPermission()
-    {
-        if ($this->User->isAdmin)
-        {
-            return;
-        }
-
-        // Set root IDs
-        if (!is_array($this->User->dlh_googlemapss) || empty($this->User->dlh_googlemapss))
-        {
-            $root = [0];
-        }
-        else
-        {
-            $root = $this->User->dlh_googlemapss;
-        }
-
-        $GLOBALS['TL_DCA']['tl_dlh_googlemaps']['list']['sorting']['root'] = $root;
-
-        // Check permissions to add Maps
-        if (!$this->User->hasAccess('create', 'dlh_googlemapsp'))
-        {
-            $GLOBALS['TL_DCA']['tl_dlh_googlemaps']['config']['closed'] = true;
-        }
-
-        // Check current action
-        switch (Input::get('act'))
-        {
-            case 'create':
-            case 'select':
-                // Allow
-                break;
-
-            case 'edit':
-                // Dynamically add the record to the user profile
-                if (!in_array(Input::get('id'), $root))
-                {
-                    $arrNew = $this->Session->get('new_records');
-
-                    if (is_array($arrNew['tl_dlh_googlemaps']) && in_array(Input::get('id'), $arrNew['tl_dlh_googlemaps']))
-                    {
-                        // Add permissions on user level
-                        if ($this->User->inherit == 'custom' || !$this->User->groups[0])
-                        {
-                            $objUser = $this->Database->prepare("SELECT dlh_googlemapss, dlh_googlemapsp FROM tl_user WHERE id=?")->limit(1)->execute($this->User->id);
-
-                            $arrDlh_googlemapsp = deserialize($objUser->dlh_googlemapsp);
-
-                            if (is_array($arrDlh_googlemapsp) && in_array('create', $arrDlh_googlemapsp))
-                            {
-                                $arrDlh_googlemapss   = deserialize($objUser->dlh_googlemapss);
-                                $arrDlh_googlemapss[] = Input::get('id');
-
-                                $this->Database->prepare("UPDATE tl_user SET dlh_googlemapss=? WHERE id=?")->execute(serialize($arrDlh_googlemapss), $this->User->id);
-                            }
-                        }
-
-                        // Add permissions on group level
-                        elseif ($this->User->groups[0] > 0)
-                        {
-                            $objGroup =
-                                $this->Database->prepare("SELECT dlh_googlemapss, dlh_googlemapsp FROM tl_user_group WHERE id=?")->limit(1)->execute($this->User->groups[0]);
-
-                            $arrDlh_googlemapsp = deserialize($objGroup->dlh_googlemapsp);
-
-                            if (is_array($arrDlh_googlemapsp) && in_array('create', $arrDlh_googlemapsp))
-                            {
-                                $arrDlh_googlemapss   = deserialize($objGroup->dlh_googlemapss);
-                                $arrDlh_googlemapss[] = Input::get('id');
-
-                                $this->Database->prepare("UPDATE tl_user_group SET dlh_googlemapss=? WHERE id=?")->execute(serialize($arrDlh_googlemapss), $this->User->groups[0]);
-                            }
-                        }
-
-                        // Add new element to the user object
-                        $root[]                      = Input::get('id');
-                        $this->User->dlh_googlemapss = $root;
-                    }
-                }
-            // No break;
-
-            case 'copy':
-            case 'delete':
-            case 'show':
-                if (!in_array(Input::get('id'), $root) || (Input::get('act') == 'delete' && !$this->User->hasAccess('delete', 'dlh_googlemapsp')))
-                {
-                    $this->log('Not enough permissions to ' . Input::get('act') . ' Map ID "' . Input::get('id') . '"', __METHOD__, TL_ERROR);
-                    $this->redirect('contao/main.php?act=error');
-                }
-                break;
-
-            case 'editAll':
-            case 'deleteAll':
-            case 'overrideAll':
-                $session = $this->Session->getData();
-                if (Input::get('act') == 'deleteAll' && !$this->User->hasAccess('delete', 'dlh_googlemapsp'))
-                {
-                    $session['CURRENT']['IDS'] = [];
-                }
-                else
-                {
-                    $session['CURRENT']['IDS'] = array_intersect($session['CURRENT']['IDS'], $root);
-                }
-                $this->Session->setData($session);
-                break;
-
-            default:
-                if (strlen(Input::get('act')))
-                {
-                    $this->log('Not enough permissions to ' . Input::get('act') . ' Maps', __METHOD__, TL_ERROR);
-                    $this->redirect('contao/main.php?act=error');
-                }
-                break;
-        }
-    }
-
-
-    /**
-     * Return the edit header button
-     *
-     * @param array
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     *
-     * @return string
-     */
-    public function editHeader($row, $href, $label, $title, $icon, $attributes)
-    {
-        return ($this->User->isAdmin || count(preg_grep('/^tl_dlh_googlemaps::/', $this->User->alexf)) > 0)
-            ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label)
-              . '</a> '
-            : Image::getHtml(
-                preg_replace('/\.gif$/i', '_.gif', $icon)
-            ) . ' ';
-    }
 
 
     /**
@@ -721,7 +539,7 @@ class tl_dlh_googlemaps extends Backend
         if ($arrRow['center'] && $arrRow['zoom'] && $arrRow['mapTypeId'])
         {
             $apikey   = '';
-            $pageList = \Database::getInstance()->prepare("select dlh_googlemaps_apikey from tl_page")->execute();
+            $pageList = Database::getInstance()->prepare("select dlh_googlemaps_apikey from tl_page")->execute();
             while ($pageList->next())
             {
                 if ($pageList->dlh_googlemaps_apikey)
