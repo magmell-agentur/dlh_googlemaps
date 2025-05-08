@@ -1,4 +1,17 @@
 <?php
+use Contao\Backend;
+use Contao\System;
+use Contao\DataContainer;
+use Contao\BackendUser;
+use delahaye\googlemaps\MapModel;
+use delahaye\googlemaps\GoogleMaps;
+use Contao\Input;
+use Contao\Image;
+use Contao\FilesModel; 
+use Contao\StringUtil;
+use Contao\Files;
+use Contao\Date;
+use Contao\DateTime;
 
 /**
  * dlh_googlemaps
@@ -156,7 +169,7 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps'] = [
             'filter'    => true,
             'sorting'   => true,
             'inputType' => 'select',
-            'options'   => $this->getCountries(),
+            'options'   => System::getContainer()->get('contao.intl.countries'),
             'eval'      => ['includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql'       => "varchar(2) NOT NULL default 'de'",
         ],

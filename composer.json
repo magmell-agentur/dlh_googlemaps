@@ -36,7 +36,8 @@
   ],
   "require": {
     "php": "^7.1 || ^8.1",
-    "contao/core-bundle": "^5.3"
+    "contao/core-bundle": "^5.3",
+    "vonheldenundgestalten/dlh_geocode": "~1.1"
   },
   "require-dev": {
     "contao/manager-plugin": "^2.2"

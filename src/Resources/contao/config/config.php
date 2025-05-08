@@ -17,35 +17,43 @@
  * Add back end modules
  */
 
-array_insert($GLOBALS['BE_MOD']['content'], sizeof($GLOBALS['BE_MOD']['content'] ?: []), array('dlh_googlemaps' => array
+// array_insert($GLOBALS['BE_MOD']['content'], sizeof($GLOBALS['BE_MOD']['content'] ?: []), array('dlh_googlemaps' => array
+// (
+//     'tables' 	 => array('tl_dlh_googlemaps', 'tl_dlh_googlemaps_elements'),
+//     'icon'   	 => 'bundles/dlhgooglemaps/icon.gif',
+//     'stylesheet' => 'bundles/dlhgooglemaps/css/backend.css',
+//     'list' 	     => array('dlhCoordsWizard', 'importList')
+// )
+// ));
+
+$GLOBALS['BE_MOD']['content']['dlh_googlemaps'] = array
 (
-    'tables' 	 => array('tl_dlh_googlemaps', 'tl_dlh_googlemaps_elements'),
-    'icon'   	 => 'bundles/dlhgooglemaps/icon.gif',
+    'callback' => 'delahaye\googlemaps\ImportList',
+    'icon'     => 'bundles/dlhgooglemaps/importlist.png',
     'stylesheet' => 'bundles/dlhgooglemaps/css/backend.css',
     'list' 	     => array('dlhCoordsWizard', 'importList')
-)
-));
-
+);
 
 /**
  * Add modules
  */
 
-array_insert($GLOBALS['FE_MOD']['miscellaneous'], sizeof($GLOBALS['FE_MOD']['miscellaneous'] ?: []), array
-(
-	'dlh_googlemaps' => 'delahaye\googlemaps\ModuleMap'
-));
-
+// array_insert($GLOBALS['FE_MOD']['miscellaneous'], sizeof($GLOBALS['FE_MOD']['miscellaneous'] ?: []), array
+// (
+// 	'dlh_googlemaps' => 'delahaye\googlemaps\ModuleMap'
+// ));
+$GLOBALS['FE_MOD']['miscellaneous']['dlh_googlemaps'] = 'delahaye\googlemaps\ModuleMap';
 
 /**
  * Add content elements
  */
 
-array_insert($GLOBALS['TL_CTE']['media'], sizeof($GLOBALS['TL_CTE']['media'] ?: []), array
-(
-    'dlh_googlemaps' => 'delahaye\googlemaps\ContentMap',
-));
+// array_insert($GLOBALS['TL_CTE']['media'], sizeof($GLOBALS['TL_CTE']['media'] ?: []), array
+// (
+//     'dlh_googlemaps' => 'delahaye\googlemaps\ContentMap',
+// ));
 
+$GLOBALS['FE_MOD']['media']['dlh_googlemaps'] = 'delahaye\googlemaps\ContentMap';
 
 /**
  * Register models

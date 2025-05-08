@@ -1,5 +1,19 @@
 <?php
 
+use Contao\Backend;
+use Contao\System;
+use Contao\DataContainer;
+use Contao\BackendUser;
+use delahaye\googlemaps\MapModel;
+use delahaye\googlemaps\GoogleMaps;
+use Contao\Input;
+use Contao\Image;
+use Contao\FilesModel; 
+use Contao\StringUtil;
+use Contao\Files;
+use Contao\Date;
+use Contao\DateTime;
+
 /**
  * dlh_googlemaps
  * Extension for Contao Open Source CMS (contao.org)
@@ -16,8 +30,7 @@
 /**
  * Load tl_content language file
  */
-$this->loadLanguageFile('tl_content');
-
+System::getContainer()->get('translator')->trans('tl_content');
 
 /**
  * Table tl_dlh_googlemaps_elements
@@ -182,7 +195,7 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps_elements'] = [
             'exclude'   => true,
             'filter'    => true,
             'inputType' => 'select',
-            'options'   => $this->getCountries(),
+            'options'   => System::getContainer()->get('contao.intl.countries'),
             'eval'      => ['includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql'       => "varchar(2) NOT NULL default 'de'",
         ],
@@ -484,7 +497,6 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps_elements'] = [
             'label'     => &$GLOBALS['TL_LANG']['tl_dlh_googlemaps_elements']['kmlScreenOverlays'],
             'exclude'   => true,
             'filter'    => true,
-            'default'   => false,
             'default'   => true,
             'eval'      => ['tl_class' => 'm12'],
             'inputType' => 'checkbox',
@@ -496,8 +508,7 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps_elements'] = [
             'filter'    => true,
             'default'   => false,
             'inputType' => 'checkbox',
-            'eval'      => ['tl_class' => 'm12'],
-            'eval'      => ['doNotCopy' => true],
+            'eval'      => ['tl_class' => 'm12','doNotCopy' => true],
             'sql'       => "char(1) NOT NULL default ''",
         ],
         'published'              => [
@@ -508,7 +519,7 @@ $GLOBALS['TL_DCA']['tl_dlh_googlemaps_elements'] = [
             'eval'      => ['tl_class' => 'w50 m12'],
             'inputType' => 'checkbox',
             'sql'       => "char(1) NOT NULL default ''",
-        ],
+        ]
     ],
 ];
 

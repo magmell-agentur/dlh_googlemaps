@@ -1,5 +1,12 @@
 <?php
 
+use Contao\Backend;
+use Contao\System;
+use Contao\DataContainer;
+use Contao\BackendUser;
+use delahaye\googlemaps\MapModel;
+use delahaye\googlemaps\GoogleMaps;
+
 /**
  * dlh_googlemaps
  * Extension for Contao Open Source CMS (contao.org)
