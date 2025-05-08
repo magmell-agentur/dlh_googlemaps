@@ -1,6 +1,12 @@
 {
   "name": "magmell-agentur/dlh_googlemaps",
   "description": "Google maps bundle for Contao",
+  "repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/vonheldenundgestalten/dlh_geocode"
+    }
+],
   "keywords": [
     "contao",
     "googlemaps",
