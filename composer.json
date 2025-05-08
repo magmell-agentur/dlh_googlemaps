@@ -45,28 +45,32 @@
     "contao/core-bundle": "^5.3",
     "vonheldenundgestalten/dlh_geocode": "@dev"
   },
-  "require-dev": {
-    "contao/manager-plugin": "^2.2"
-  },
   "replace": {
     "contao-legacy/dlh_googlemaps": "*",
     "delahaye/dlh_googlemaps": "*"
   },
-  "extra": {
-    "contao-manager-plugin": "delahaye\\googlemaps\\ContaoManager\\Plugin"
-  },
   "autoload": {
-    "psr-4": {
-      "delahaye\\googlemaps\\": "src"
-    },
+        "psr-4": {
+            "delahaye\\googlemaps\\": "src/"
+     },
     "classmap": [
-      "src/Resources/contao/"
+        "contao/"
     ],
     "exclude-from-classmap": [
-      "src/Resources/contao/config/",
-      "src/Resources/contao/dca/",
-      "src/Resources/contao/languages/",
-      "src/Resources/contao/templates/"
+        "contao/config/",
+        "contao/dca/",
+        "contao/languages/",
+        "contao/templates/"
     ]
-  }
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "contao/manager-plugin": true,
+            "php-http/discovery": false
+        }
+    },
+    "extra": {
+        "contao-manager-plugin": "delahaye\\googlemaps\\ContaoManager\\Plugin"
+    }
 }
