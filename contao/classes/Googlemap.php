@@ -26,6 +26,7 @@ use Contao\LayoutModel;
 use Contao\PageModel;
 use Contao\Config;
 use Contao\Frontend;    
+use Contao\StringUtil;
 
 /**
  * Class Googlemap
@@ -97,9 +98,9 @@ class Googlemap extends Frontend
 
         $arrMap                           = $objMap->row();
         $arrMap['language']               = $GLOBALS['TL_LANGUAGE'];
-        $arrMap['mapSize']                = deserialize($arrMap['mapSize']);
+        $arrMap['mapSize']                = StringUtil::deserialize($arrMap['mapSize']);
         $arrMap['mapSize'][2]             = ($arrMap['mapSize'][2] == 'pcnt' ? '%' : $arrMap['mapSize'][2]);
-        $arrMap['mapTypesAvailable']      = deserialize($arrMap['mapTypesAvailable']);
+        $arrMap['mapTypesAvailable']      = StringUtil::deserialize($arrMap['mapTypesAvailable']);
         $arrMap['center']                 = str_replace(' ', '', $arrMap['center']);
         $arrMap['draggable']              = $arrMap['draggable'] ? 'true' : 'false';
         $arrMap['scrollwheel']            = $arrMap['scrollwheel'] ? 'true' : 'false';
@@ -216,7 +217,7 @@ class Googlemap extends Frontend
 
         $arrElement['singleCoords'] = str_replace(' ', '', $arrElement['singleCoords']);
 
-        $arrElement['multiCoords'] = deserialize($arrElement['multiCoords']);
+        $arrElement['multiCoords'] = StringUtil::deserialize($arrElement['multiCoords']);
         if (is_array($arrElement['multiCoords']))
         {
             $tmp1 = [];
@@ -229,9 +230,9 @@ class Googlemap extends Frontend
             $arrElement['windowPosition'] = array_sum($tmp1[0]) / sizeof($tmp1[0]) . ',' . array_sum($tmp1[1]) / sizeof($tmp1[1]);
         }
 
-        $arrElement['iconSize'] = deserialize($arrElement['iconSize']);
+        $arrElement['iconSize'] = StringUtil::deserialize($arrElement['iconSize']);
 
-        $arrElement['iconAnchor'] = deserialize($arrElement['iconAnchor']);
+        $arrElement['iconAnchor'] = StringUtil::deserialize($arrElement['iconAnchor']);
 
         if (!$arrElement['iconAnchor'][0] || $arrElement['iconAnchor'][0] == 0)
         {
@@ -257,23 +258,23 @@ class Googlemap extends Frontend
         $objFile                 = FilesModel::findByPk($arrElement['shadowSRC']);
         $arrElement['shadowSRC'] = $objFile->path;
 
-        $arrElement['shadowSize'] = deserialize($arrElement['shadowSize']);
+        $arrElement['shadowSize'] = StringUtil::deserialize($arrElement['shadowSize']);
 
-        $arrElement['strokeWeight'] = deserialize($arrElement['strokeWeight']);
+        $arrElement['strokeWeight'] = StringUtil::deserialize($arrElement['strokeWeight']);
 
-        $tmp1 = deserialize($arrElement['strokeOpacity']);
+        $tmp1 = StringUtil::deserialize($arrElement['strokeOpacity']);
         if (isset($tmp1['value']))
         {
             $arrElement['strokeOpacity'] = ($tmp1['value'] / 100);
         }
 
-        $tmp1 = deserialize($arrElement['fillOpacity']);
+        $tmp1 = StringUtil::deserialize($arrElement['fillOpacity']);
         if (isset($tmp1['value']))
         {
             $arrElement['fillOpacity'] = ($tmp1['value'] / 100);
         }
 
-        $arrElement['radius'] = deserialize($arrElement['radius']);
+        $arrElement['radius'] = StringUtil::deserialize($arrElement['radius']);
         $arrElement['bounds'] = trimsplit(',', $arrElement['bounds']);
 
         if (!empty($arrElement['bounds']) && is_numeric($arrElement['bounds'][1]) && is_numeric($arrElement['bounds'][0]))
@@ -283,11 +284,11 @@ class Googlemap extends Frontend
 
         $arrElement['infoWindow'] = preg_replace('/[\n\r\t]+/i', '', str_replace('\"', '"', addslashes($this->replaceInsertTags($arrElement['infoWindow']))));
 
-        $arrElement['infoWindowAnchor']    = deserialize($arrElement['infoWindowAnchor']);
+        $arrElement['infoWindowAnchor']    = StringUtil::deserialize($arrElement['infoWindowAnchor']);
         $arrElement['infoWindowAnchor'][0] = $arrElement['infoWindowAnchor'][0] ? -1 * $arrElement['infoWindowAnchor'][0] : 0;
         $arrElement['infoWindowAnchor'][1] = $arrElement['infoWindowAnchor'][1] ? -1 * $arrElement['infoWindowAnchor'][1] : 0;
 
-        $tmpSize = deserialize($arrElement['infoWindowSize']);
+        $tmpSize = StringUtil::deserialize($arrElement['infoWindowSize']);
 
         $arrElement['infoWindowSize'] = '';
         if (is_array($tmpSize) && $tmpSize[0] > 0 && $tmpSize[1] > 0)
@@ -422,7 +423,7 @@ class Googlemap extends Frontend
 
         $objLayout = LayoutModel::findByPk($objPage->layout);
 
-        $objLayout->framework = deserialize($objLayout->framework);
+        $objLayout->framework = StringUtil::deserialize($objLayout->framework);
 
         if (is_array($objLayout->framework) && count($objLayout->framework) > 0)
         {
