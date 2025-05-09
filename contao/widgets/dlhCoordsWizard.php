@@ -265,7 +265,7 @@ class dlhCoordsWizard extends \Widget
 <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_list_import" class="tl_form" method="post" enctype="multipart/form-data">
 <div class="tl_formbody_edit">
 <input type="hidden" name="FORM_SUBMIT" value="tl_list_import">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
+<input type="hidden" name="REQUEST_TOKEN" value="'.$this->requestoken.'">
 <input type="hidden" name="MAX_FILE_SIZE" value="'.$GLOBALS['TL_CONFIG']['maxFileSize'].'">
 
 <div class="tl_tbox">

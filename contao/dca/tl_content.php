@@ -169,7 +169,7 @@ class tl_content_dlh_googlemaps extends Backend
                 '%s <a href="contao/main.php?do=dlh_googlemaps&act=edit&id=%s&popup=1&nb=1&rt=%s" title="%s" onclick="%s">%s</a>',
                 $objMaps->title,
                 $objMaps->id,
-                REQUEST_TOKEN,
+                $this->requestoken,
                 sprintf(specialchars($GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $objMaps->id),
                 'Backend.openModalIframe({\'title\':\'' . specialchars(
                     str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_content']['editalias'][1], $objMaps->id))

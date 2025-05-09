@@ -78,11 +78,9 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['dlh_googlemap_size'] = [
     'inputType' => 'imageSize',
     'options_callback' => function ()
     {
-        if (version_compare(VERSION, '4.0', '<')) {
-            return ['', 'proportional','box'];
-        } else {
-            return array_merge(['' => '-'], System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance()));
-        }
+        
+        return array_merge(['' => '-'], System::getContainer()->get('contao.image.sizes')->getOptionsForUser(BackendUser::getInstance()));
+        
     },
     'reference' => &$GLOBALS['TL_LANG']['MSC'],
     'eval'      => ['rgxp' => 'digit', 'nospace' => true, 'helpwizard' => false, 'tl_class' => 'w50'],
@@ -197,7 +195,7 @@ class tl_module_dlh_googlemaps extends Backend
                 '%s <a href="contao/main.php?do=dlh_googlemaps&act=edit&popup=1&id=%s&rt=%s"><img src="system/themes/default/images/edit.gif" width="12" height="12"></a>',
                 $objMaps->title,
                 $objMaps->id,
-                REQUEST_TOKEN
+                $this->requestoken,
             );
         }
 

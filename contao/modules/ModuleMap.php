@@ -17,7 +17,7 @@
  */
 namespace delahaye\googlemaps;
 
-
+use Contao\Module;
 /**
  * Class ModuleMap
  *
@@ -26,7 +26,7 @@ namespace delahaye\googlemaps;
  * @author     Christian de la Haye
  * @package    dlh_googlemaps
  */
-class ModuleMap extends \Module
+class ModuleMap extends Module
 {
     /**
      * Template
