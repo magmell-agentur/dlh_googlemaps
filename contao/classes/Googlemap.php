@@ -19,6 +19,13 @@
 
 namespace delahaye\googlemaps;
 
+use Contao\Environment;     
+use Contao\FilesModel;
+use Contao\FrontendTemplate;
+use Contao\LayoutModel;
+use Contao\PageModel;
+use Contao\Config;
+use Contao\Frontend;    
 
 /**
  * Class Googlemap
@@ -29,7 +36,7 @@ namespace delahaye\googlemaps;
  * @author     Christian de la Haye
  * @package    dlh_googlemaps
  */
-class Googlemap extends \Frontend
+class Googlemap extends Frontend
 {
     static protected $arrMarkers = [];
 
@@ -78,14 +85,14 @@ class Googlemap extends \Frontend
 
         $key = null;
 
-        if (($objRootPage = \PageModel::findByPk($objPage->rootId)) !== null)
+        if (($objRootPage = PageModel::findByPk($objPage->rootId)) !== null)
         {
             $key = $objRootPage->dlh_googlemaps_apikey;
         }
 
         if ($key === null)
         {
-            $key = \Config::get('dlh_googlemaps_apikey');
+            $key = Config::get('dlh_googlemaps_apikey');
         }
 
         $arrMap                           = $objMap->row();
@@ -129,7 +136,7 @@ class Googlemap extends \Frontend
 
         // generate static map begin
         $arrMap['staticMap'] =
-            '<img src="http' . (\Environment::get('ssl') ? 's' : '') . '://maps.google.com/maps/api/staticmap?center=' . $arrMap['center'] . '&amp;zoom=' . $arrMap['zoom']
+            '<img src="http' . (Environment::get('ssl') ? 's' : '') . '://maps.google.com/maps/api/staticmap?center=' . $arrMap['center'] . '&amp;zoom=' . $arrMap['zoom']
             . '&amp;maptype=' . strtolower($arrMap['mapTypeId']) . '&amp;language=' . $arrMap['language'] . '&amp;size=';
 
         if ($arrMap['mapSize'][2] == 'box')
@@ -244,10 +251,10 @@ class Googlemap extends \Frontend
             $arrElement['iconAnchor'][1] = floor($arrElement['iconSize'][1] / 2) + $arrElement['iconAnchor'][1];
         }
 
-        $objFile                  = \FilesModel::findByPk($arrElement['overlaySRC']);
+        $objFile                  = FilesModel::findByPk($arrElement['overlaySRC']);
         $arrElement['overlaySRC'] = $objFile->path;
 
-        $objFile                 = \FilesModel::findByPk($arrElement['shadowSRC']);
+        $objFile                 = FilesModel::findByPk($arrElement['shadowSRC']);
         $arrElement['shadowSRC'] = $objFile->path;
 
         $arrElement['shadowSize'] = deserialize($arrElement['shadowSize']);
@@ -313,8 +320,8 @@ class Googlemap extends \Frontend
                 if ($arrElement['markerType'] == 'ICON')
                 {
                     $arrElement['iconSRC']                                                                                             =
-                        \FilesModel::findByUuid($arrElement['iconSRC'])->path;
-                    self::$arrMarkers['icon:' . rawurlencode(\Environment::get('base') . $arrElement['iconSRC']) . '|shadow:false|'][] = $arrElement['singleCoords'];
+                        FilesModel::findByUuid($arrElement['iconSRC'])->path;
+                    self::$arrMarkers['icon:' . rawurlencode(Environment::get('base') . $arrElement['iconSRC']) . '|shadow:false|'][] = $arrElement['singleCoords'];
                 }
                 else
                 {
@@ -349,7 +356,7 @@ class Googlemap extends \Frontend
         }
 
         // parse the element
-        $subTemplate          = new \FrontendTemplate('dlh_' . strtolower($arrElement['type']));
+        $subTemplate          = new FrontendTemplate('dlh_' . strtolower($arrElement['type']));
         $subTemplate->map     = $intMap;
         $subTemplate->element = $arrElement;
 
@@ -413,7 +420,7 @@ class Googlemap extends \Frontend
     {
         global $objPage;
 
-        $objLayout = \LayoutModel::findByPk($objPage->layout);
+        $objLayout = LayoutModel::findByPk($objPage->layout);
 
         $objLayout->framework = deserialize($objLayout->framework);
 
