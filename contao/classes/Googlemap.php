@@ -27,6 +27,7 @@ use Contao\PageModel;
 use Contao\Config;
 use Contao\Frontend;    
 use Contao\StringUtil;
+use Contao\System;
 
 /**
  * Class Googlemap
@@ -253,11 +254,13 @@ class Googlemap extends Frontend
         }
 
         $objFile                  = FilesModel::findByPk($arrElement['overlaySRC']);
-        $arrElement['overlaySRC'] = $objFile->path;
-
+        if(isset($objFile)){
+            $arrElement['overlaySRC'] = $objFile->path;
+        }
         $objFile                 = FilesModel::findByPk($arrElement['shadowSRC']);
-        $arrElement['shadowSRC'] = $objFile->path;
-
+        if(isset($objFile)){
+            $arrElement['shadowSRC'] = $objFile->path;
+        }
         $arrElement['shadowSize'] = StringUtil::deserialize($arrElement['shadowSize']);
 
         $arrElement['strokeWeight'] = StringUtil::deserialize($arrElement['strokeWeight']);
@@ -275,15 +278,24 @@ class Googlemap extends Frontend
         }
 
         $arrElement['radius'] = StringUtil::deserialize($arrElement['radius']);
-        $arrElement['bounds'] = trimsplit(',', $arrElement['bounds']);
+        $arrElement['bounds'] = StringUtil::trimsplit(',', $arrElement['bounds']);
 
         if (!empty($arrElement['bounds']) && is_numeric($arrElement['bounds'][1]) && is_numeric($arrElement['bounds'][0]))
         {
             $arrElement['bounds'] = sprintf('%s,%s', ($arrElement['bounds'][0] . $arrElement['bounds'][0]) / 2, ($arrElement['bounds'][1] . $arrElement['bounds'][1]) / 2);
         }
 
-        $arrElement['infoWindow'] = preg_replace('/[\n\r\t]+/i', '', str_replace('\"', '"', addslashes($this->replaceInsertTags($arrElement['infoWindow']))));
-
+$arrElement['infoWindow'] = preg_replace(
+    '/[\n\r\t]+/i',
+    '',
+    str_replace(
+        '\"',
+        '"',
+        addslashes(
+            System::getContainer()->get('contao.insert_tag.parser')->replace($arrElement['infoWindow'])
+        )
+    )
+);
         $arrElement['infoWindowAnchor']    = StringUtil::deserialize($arrElement['infoWindowAnchor']);
         $arrElement['infoWindowAnchor'][0] = $arrElement['infoWindowAnchor'][0] ? -1 * $arrElement['infoWindowAnchor'][0] : 0;
         $arrElement['infoWindowAnchor'][1] = $arrElement['infoWindowAnchor'][1] ? -1 * $arrElement['infoWindowAnchor'][1] : 0;
@@ -313,8 +325,7 @@ class Googlemap extends Frontend
         $arrElement['staticMapPart'] = '';
 
         //supporting insertags
-        $arrElement['kmlUrl'] = $this->replaceInsertTags($arrElement['kmlUrl'], false);
-
+$arrElement['kmlUrl'] = System::getContainer()->get('contao.insert_tag.parser')->replace($arrElement['kmlUrl']);
         switch ($arrElement['type'])
         {
             case 'MARKER':

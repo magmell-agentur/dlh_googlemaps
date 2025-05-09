@@ -23,6 +23,7 @@ use Contao\Database;
 use Contao\Environment;
 use Contao\ContentElement;
 use Contao\Module;
+use Contao\StringUtil;
 /**
  * Class ModuleMap
  *
@@ -83,7 +84,7 @@ class ModuleMap extends Module
         // get the map data
         $arrParams = array
         (
-            'mapSize' => deserialize($this->dlh_googlemap_size),
+            'mapSize' => StringUtil::deserialize($this->dlh_googlemap_size),
             'zoom' => $this->dlh_googlemap_zoom
         );
 
