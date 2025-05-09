@@ -19,6 +19,12 @@
 
 namespace delahaye\googlemaps;
 
+use delahaye\googlemaps\Helpers;
+use Contao\FrontendTemplate;
+use Contao\Database;
+use Contao\Environment;
+use Contao\ContentElement;
+use Contao\System;
 
 /**
  * Class ContentMap
@@ -29,7 +35,7 @@ namespace delahaye\googlemaps;
  * @author     Christian de la Haye
  * @package    dlh_googlemaps
  */
-class ContentMap extends \ContentElement
+class ContentMap extends ContentElement
 {
 
     /**
@@ -45,7 +51,7 @@ class ContentMap extends \ContentElement
      */
     public function generate()
     {
-        if (TL_MODE == 'BE')
+        if (Helpers::checkMode() == 'BE')
         {
             // get map data
             $objMap = \delahaye\googlemaps\MapModel::findByPk($this->dlh_googlemap);
@@ -64,7 +70,7 @@ class ContentMap extends \ContentElement
     {
         global $objPage;
 
-        $objRootPage = \Database::getInstance()->prepare("select dlh_googlemaps_apikey from tl_page where id=?")->limit(1)->execute($objPage->rootId);
+        $objRootPage = Database::getInstance()->prepare("select dlh_googlemaps_apikey from tl_page where id=?")->limit(1)->execute($objPage->rootId);
 
         // Contao framework sets images to max-width 100%, which collides with Google's CSS
         if (!$this->dlh_googlemap_nocss)
@@ -85,7 +91,7 @@ class ContentMap extends \ContentElement
         // static map
         if ($this->dlh_googlemap_static)
         {
-            $this->Template = new \FrontendTemplate('ce_dlh_googlemapsstatic');
+            $this->Template = new FrontendTemplate('ce_dlh_googlemapsstatic');
 
             if ($this->dlh_googlemap_url)
             {
@@ -100,11 +106,11 @@ class ContentMap extends \ContentElement
         {
             if ($this->dlh_googlemap_template && $this->dlh_googlemap_template != 'ce_dlh_googlemaps_default')
             {
-                $this->Template = new \FrontendTemplate($this->dlh_googlemap_template);
+                $this->Template = new FrontendTemplate($this->dlh_googlemap_template);
             }
 
             $GLOBALS['TL_JAVASCRIPT'][] =
-                'http' . (\Environment::get('ssl') ? 's' : '') . '://maps.google.com/maps/api/js?key=' . $objRootPage->dlh_googlemaps_apikey . '&language=' . $arrMap['language'];
+                'http' . (Environment::get('ssl') ? 's' : '') . '://maps.google.com/maps/api/js?key=' . $objRootPage->dlh_googlemaps_apikey . '&language=' . $arrMap['language'];
             if ($arrMap['useClusterer'])
             {
                 $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/dlhgooglemaps/js-marker-clusterer-gh-pages/src/markerclusterer.js';
